@@ -34,8 +34,8 @@ public class City {
         return (radius * c); // in m
     }
 
-    public boolean isAdjacent (City that, double threshold) {
-        return this.distance(that) / 1_000 < threshold; //comparison in km
+    public boolean isAdjacent (City that, int threshold) {
+        return this.distance(that)  < threshold * 1000; //comparison in meters
     }
 
     //getters for attributes
