@@ -8,7 +8,7 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "personList.txt";
+        String filename = "InputExample.txt";
         try{
             cityList = importList(filename);
             System.out.println("Import successful.");
@@ -30,8 +30,10 @@ public class Main {
         for(int i=0; i<n; i++){
             String cityName = input.next();
             int numberInhab = input.nextInt();
-            double latitude = input.nextDouble();
-            double longitude = input.nextDouble();
+            String latString = input.next().replaceAll("[.\\s']", "").replaceAll(",", ".");
+                double latitude = Double.parseDouble(latString);
+            String longString = input.next().replaceAll("[.\\s']", "").replaceAll(",", ".");
+                double longitude = Double.parseDouble(longString);
 
             list[i] = new City(cityName, numberInhab, latitude, longitude);
         }

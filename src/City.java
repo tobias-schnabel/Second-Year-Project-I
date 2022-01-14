@@ -31,7 +31,11 @@ public class City {
 
         final double a = Math.sin(delta_phi / 2) * Math.sin(delta_lambda / 2) + Math.cos(phi_one) * Math.cos(phi_two) * Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
         final double c =  2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return radius * c;
+        return (radius * c); // in m
+    }
+
+    public boolean isAdjacent (City that, double threshold) {
+        return this.distance(that) / 1_000 < threshold; //comparison in km
     }
 
     //getters for attributes
@@ -53,5 +57,5 @@ public class City {
 
 
 }
-//constructor needs coordinates, name, population
+
 //(instance) methods for distance, adjacency?
