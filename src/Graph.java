@@ -1,8 +1,10 @@
+import java.util.Stack;
+
 public class Graph {
     private final int vertex;
     double[][] adjMatrix;
     double[][] distMatrix;
-    double[][] closerMatrix;
+    double[][] payoffMatrix;
     double[][] popMatrix;
     int[][] stratMatrix;
 
@@ -10,7 +12,7 @@ public class Graph {
         this.vertex = numCities;
         adjMatrix = new double[vertex][vertex];
         distMatrix = new double[vertex][vertex];
-        closerMatrix = new double[vertex][vertex];
+        payoffMatrix = new double[vertex][vertex];
         popMatrix = new double[vertex][vertex];
         stratMatrix = new int[vertex][vertex];
     }
@@ -30,40 +32,64 @@ public class Graph {
         return (int) Math.round(maxDistance + 1);
         } //close method
 
-    public void populate (City[] cityList) {
-        for (int i = 0; i < cityList.length; i++) {
-            for (int j = 0; j < cityList.length; j++) {
-                popMatrix[i][j] = cityList[j].getNumInhab() * closerMatrix[i][j];
-            } //inner for
-        } //outer for
-    } //close method
+//    public void populate (City[] cityList) {
+//        for (int i = 0; i < cityList.length; i++) {
+//            for (int j = 0; j < cityList.length; j++) {
+//                popMatrix[i][j] = cityList[j].getNumInhab() * closerMatrix[i][j];
+//            } //inner for
+//        } //outer for
+//    } //close method
 
-    public void choices (City[] cityList, Location[] locationList) {
+    public void payoffMatrix(City[] cityList) {
         int totalPop = 0;
         for (City city : cityList){
             totalPop += city.getNumInhab();
         }
         System.out.println(totalPop);
+        int n = cityList.length;
 
-        for (int i = 0; i < cityList.length; i++) {
-            double numAvailCustomers = 0;
-            double totalAvailCustomers = 0;
-            for (int j = 0; j < cityList.length; j++) {
-                numAvailCustomers = cityList[j].getNumInhab() * closerMatrix[i][j];
-                totalAvailCustomers += numAvailCustomers;
-                popMatrix[i][j] = numAvailCustomers;
-            } //inner for
-
-//            for (int k = 0; k < cityList.length; k++) {
-//                numAvailCustomers = cityList[k].getNumInhab() * closerMatrix[i][k];
-//                totalAvailCustomers += numAvailCustomers;
-//                popMatrix[i][k] = numAvailCustomers;
-//                stratMatrix[i][k] =
-//                        locationList[i].addCustomers(numAvailCustomers);
-//            }
-        } //outer for
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(i == j){
+                    payoffMatrix[i][j] += totalPop / (double) 2;
+                } else {
+                    for(int k = 0; k < n; k++){
+                        if(cityList[i].distance(cityList[k]) < cityList[j].distance(cityList[k])){
+                            payoffMatrix[i][j] += cityList[k].getNumInhab();
+                        }
+                    } //innermost for
+                } //close else
+            } //close second for
+        } //close outer for
     } //close method
 
+//    public void reduce (City[] cityList) {
+//        Stack<double[]> stack1 = new Stack<double[]>();
+//        Stack<double[]> stack2 = new Stack<double[]>();
+//
+//        for (int i = 0; i < cityList.length; i++) {
+//            stack1.push(payoffMatrix[i]) ;
+//        }
+//        //every row now on first stack
+//        double[] candidateRow = new double[cityList.length];
+//        while (! stack1.isEmpty()) {
+//            candidateRow = stack1.pop();
+//        }
+//        System.out.println(stack1.lastElement());
+//    } //close method
+
+    public void reduce2 (City[] cityList) {
+        int n = cityList.length;
+        boolean[][] optimalChoices = new boolean[n][n];
+        for(boolean choice: optimalChoices){
+            choice = true;
+        }
+        for(int j = 0; j < n; j++){
+            for(int i = 0; i < n; i++){
+                payoffMatrix[i][j] <
+            }
+        }
+    }
 
     public void adjacency (City[] cityList, int threshold) {
         for (int i =0; i < cityList.length; i++) {
@@ -107,12 +133,12 @@ public class Graph {
         System.out.println("");
     } //close method
 
-    public void printCloserMatrix() {
+    public void printPayoffMatrix() {
         int displayThreshold = this.vertex;
         for (int i = 0; i < this.vertex; i++) {
             int lineBreakCounter = 0;
             for (int j = 0; j < this.vertex; j++) {
-                System.out.print(closerMatrix[i][j] + " ");
+                System.out.print(payoffMatrix[i][j] + " ");
                 lineBreakCounter ++;
                 if (lineBreakCounter == displayThreshold) {
                     System.out.print("\n");

@@ -35,11 +35,13 @@ public class Main {
         //initial testing of graph methods
         Graph graph = new Graph(cityList.length);
         int maxDist = graph.initialize(cityList);
-        graph.populate(cityList);
+
         graph.adjacency(cityList, maxDist);
         graph.printDistMatrix();
-        graph.printCloserMatrix();
-        graph.printPopMatrix();
+        graph.payoffMatrix(cityList);
+        graph.printPayoffMatrix();
+        graph.reduce(cityList);
+
 
         Location[] locationList = new Location[cityList.length];
         for (int i = 0; i < cityList.length; i++) {
