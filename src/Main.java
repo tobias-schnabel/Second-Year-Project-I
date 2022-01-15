@@ -18,11 +18,17 @@ public class Main {
             e.printStackTrace();
         }
 
+        //initial testing of I/O, city methods
         System.out.println(Objects.requireNonNull(cityList)[0]);
         System.out.println(Objects.requireNonNull(cityList[1]));
         System.out.println(cityList[0].distance(cityList[1]));
         System.out.println(cityList[0].isAdjacent(cityList[1], 25));
         System.out.println(cityList[0].isAdjacent(cityList[1], 15));
+
+        //initial testing of graph methods
+        Graph graph = new Graph(cityList.length);
+        graph.populateGraph(cityList, 5);
+        System.out.println(graph);
     } //close main
 
     public static City[] importList(String filename)
