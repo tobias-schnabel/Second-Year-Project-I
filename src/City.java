@@ -29,8 +29,8 @@ public class City {
         final double delta_phi = (this.latCoord - that.latCoord) * Math.PI / 180;
         final double delta_lambda = (this.longCoord - that.longCoord) * Math.PI / 180;
 
-        final double a = Math.sin(delta_phi / 2) * Math.sin(delta_lambda / 2) + Math.cos(phi_one) * Math.cos(phi_two) * Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
-        final double c =  2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        final double a = Math.pow(Math.sin(delta_phi / 2), 2) + Math.pow(Math.sin(delta_lambda / 2), 2) * Math.cos(phi_one) * Math.cos(phi_two);
+        final double c =  2 * Math.asin(Math.sqrt(a));
         return (radius * c) / 1000; // in km
     }
 

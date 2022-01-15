@@ -23,12 +23,13 @@ public class Main {
         System.out.println(Objects.requireNonNull(cityList[1]));
         System.out.println(cityList[0].distance(cityList[1]));
         cityList[0].isAdjacentTest(cityList[1], 25);
-        cityList[0].isAdjacentTest(cityList[1], 100);
+        cityList[0].isAdjacentTest(cityList[1], 254);
 
         //initial testing of graph methods
         Graph graph = new Graph(cityList.length);
-        graph.populateGraph(cityList, 100);
-        graph.printMatrix();
+        int maxDist = graph.initialize(cityList);
+        graph.populate(cityList, maxDist);
+        graph.printDistMatrix();
     } //close main
 
     public static City[] importList(String filename)
@@ -59,13 +60,3 @@ public class Main {
         return Double.parseDouble(cleanstring);
     }
 }
-
-
-
-/* needs methods for
-1. Data import #done
-2. instantiating Cities as objects using City class #done
-3. iterative elimination method
-4. local search method
-
- */
