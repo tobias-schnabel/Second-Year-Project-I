@@ -9,7 +9,7 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "InputExample.txt";
+        String filename = "Input_50_German_Cities.txt";
         try{
             cityList = importList(filename);
             System.out.println("Import successful.");
@@ -22,13 +22,13 @@ public class Main {
         System.out.println(Objects.requireNonNull(cityList)[0]);
         System.out.println(Objects.requireNonNull(cityList[1]));
         System.out.println(cityList[0].distance(cityList[1]));
-        System.out.println(cityList[0].isAdjacent(cityList[1], 25));
-        System.out.println(cityList[0].isAdjacent(cityList[1], 15));
+        cityList[0].isAdjacentTest(cityList[1], 25);
+        cityList[0].isAdjacentTest(cityList[1], 100);
 
         //initial testing of graph methods
         Graph graph = new Graph(cityList.length);
-        graph.populateGraph(cityList, 5);
-        System.out.println(graph);
+        graph.populateGraph(cityList, 100);
+        graph.printMatrix();
     } //close main
 
     public static City[] importList(String filename)

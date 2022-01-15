@@ -20,6 +20,15 @@ public class Graph {
         } //outer for
     } //close method
 
+    public void printMatrix() {
+        for (int i = 0; i < this.vertex; i++) {
+            for (int j = 0; j < this.vertex; j++) {
+                System.out.print(adjMatrix[i][j] + " ");
+            } //inner for
+        } // outer for
+
+    }
+
 //    @Override
 //    public String toString() {
 //        return "Graph{" +

@@ -38,6 +38,15 @@ public class City {
         return this.distance(that) <= threshold; //comparison in km
     }
 
+    public void isAdjacentTest (City that, int threshold) {
+        boolean retVal = this.distance(that) <= threshold; //comparison in km
+        if (retVal) {
+            System.out.println(this.name + " is adjacent to " + that.name + " for a threshold of " + threshold + "km, distance: " + this.distance(that));
+        } else {
+            System.out.println(this.name + " is not adjacent to " + that.name + "for a threshold of " + threshold + "km, distance: " + this.distance(that));
+        }
+    }
+
     //getters for attributes
     public String getName() {
         return name;
