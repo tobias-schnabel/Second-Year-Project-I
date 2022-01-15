@@ -20,13 +20,13 @@ public class Graph {
         } //outer for
     } //close method
 
-    @Override
-    public String toString() {
-        return "Graph{" +
-                "Number of vertices: " + vertex +
-                ", adjMatrix={" + for () +
-                '}}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Graph{" +
+//                "Number of vertices: " + vertex +
+//                ", adjMatrix={" + for () +
+//                '}}';
+//    }
 } //close class
 
 //adjacency matrix or
