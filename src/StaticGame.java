@@ -71,8 +71,8 @@ public class StaticGame {
          p = 0;
          optimal = this.payoffMatrix[p][j];
          while(optimal == 0 && p < n){
-         p++;
          optimal = this.payoffMatrix[p][j];
+         p++;
          } 
          if(p == n){
          continue;
