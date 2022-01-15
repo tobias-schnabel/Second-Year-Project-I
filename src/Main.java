@@ -9,7 +9,7 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "Input_50_German_Cities.txt";
+        String filename = "InputExample.txt";
         try{
             cityList = importList(filename);
             System.out.println("Import successful.");
@@ -25,11 +25,26 @@ public class Main {
         cityList[0].isAdjacentTest(cityList[1], 25);
         cityList[0].isAdjacentTest(cityList[1], 254);
 
+        for (int i = 0; i < cityList.length; i++){
+            for (int j = 0; j < cityList.length; j++){
+                System.out.println(cityList[i].getName()+ " to " + cityList[j].getName() + ": " + cityList[i].distance(cityList[j]));
+            }
+        }
+        System.out.println();
+
         //initial testing of graph methods
         Graph graph = new Graph(cityList.length);
         int maxDist = graph.initialize(cityList);
-        graph.populate(cityList, maxDist);
+        graph.populate(cityList);
+        graph.adjacency(cityList, maxDist);
         graph.printDistMatrix();
+        graph.printCloserMatrix();
+        graph.printPopMatrix();
+
+        Location[] locationList = new Location[cityList.length];
+        for (int i = 0; i < cityList.length; i++) {
+            locationList[i] = new Location(cityList[i].getName(), cityList[i].getNumInhab(), cityList[i].getLatCoord(), cityList[i].getLongCoord(), 0);
+        }
     } //close main
 
     public static City[] importList(String filename)

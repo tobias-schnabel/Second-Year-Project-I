@@ -52,7 +52,7 @@ public class City {
         return name;
     }
 
-    public double getNumInhab() {
+    public int getNumInhab() {
         return numInhab;
     }
 
@@ -76,4 +76,3 @@ public class City {
     }
 }
 
-//(instance) methods for distance, adjacency?
