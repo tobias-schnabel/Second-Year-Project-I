@@ -1,10 +1,10 @@
 public class Graph {
-    private int vertex;
-    double adjMatrix[][];
-    double distMatrix[][];
-    double closerMatrix[][];
-    double popMatrix[][];
-    int stratMatrix[][];
+    private final int vertex;
+    double[][] adjMatrix;
+    double[][] distMatrix;
+    double[][] closerMatrix;
+    double[][] popMatrix;
+    int[][] stratMatrix;
 
     public Graph(int numCities) { //constructs empty adjacency matrix
         this.vertex = numCities;
@@ -24,18 +24,6 @@ public class Graph {
                 distMatrix[j][i] = distance;
                 if (distance > maxDistance) {
                     maxDistance = distance;
-                }
-
-                for (int k = 0; k < cityList.length; k++) {
-                    double dist_i = cityList[k].distance(cityList[i]);
-                    double dist_j = cityList[k].distance(cityList[j]);
-                    if (dist_i < dist_j) {
-                        closerMatrix[i][k] = 1; //closer to i
-                    } else if (dist_i > dist_j) {
-                        closerMatrix[i][k] = 0; //closer to j
-                    } else if (dist_i == dist_j) {
-                        closerMatrix[i][k] = 0.5;
-                    }
                 }
             } //inner for
         } //outer for
