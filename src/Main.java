@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -16,7 +17,13 @@ public class Main {
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
-    }
+
+        System.out.println(Objects.requireNonNull(cityList)[0]);
+        System.out.println(Objects.requireNonNull(cityList[1]));
+        System.out.println(cityList[0].distance(cityList[1]));
+        System.out.println(cityList[0].isAdjacent(cityList[1], 25));
+        System.out.println(cityList[0].isAdjacent(cityList[1], 15));
+    } //close main
 
     public static City[] importList(String filename)
 
@@ -30,10 +37,8 @@ public class Main {
         for(int i=0; i<n; i++){
             String cityName = input.next();
             int numberInhab = input.nextInt();
-            String latString = input.next().replaceAll("[.\\s']", "").replaceAll(",", ".");
-                double latitude = Double.parseDouble(latString);
-            String longString = input.next().replaceAll("[.\\s']", "").replaceAll(",", ".");
-                double longitude = Double.parseDouble(longString);
+            double latitude = cleanData(input.next());
+            double longitude = cleanData(input.next());
 
             list[i] = new City(cityName, numberInhab, latitude, longitude);
         }
@@ -42,7 +47,14 @@ public class Main {
 
         return list;
     }
+
+    public static double cleanData(String rawData) { //replaceAll("[.\\s']", "").replaceAll(",", ".").
+        String cleanstring = rawData.replaceAll("°",  "").replaceAll("′", "");
+        return Double.parseDouble(cleanstring);
+    }
 }
+
+
 
 /* needs methods for
 1. Data import #done

@@ -2,7 +2,7 @@ public class City {
 
     //declare immutabe city attributes
     private final String name;
-    private final double numInhab;
+    private final int numInhab;
     private final double latCoord;
     private final double longCoord;
 
@@ -31,11 +31,11 @@ public class City {
 
         final double a = Math.sin(delta_phi / 2) * Math.sin(delta_lambda / 2) + Math.cos(phi_one) * Math.cos(phi_two) * Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
         final double c =  2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return (radius * c); // in m
+        return (radius * c) / 1000; // in km
     }
 
     public boolean isAdjacent (City that, int threshold) {
-        return this.distance(that)  < threshold * 1000; //comparison in meters
+        return this.distance(that) <= threshold; //comparison in km
     }
 
     //getters for attributes
@@ -56,6 +56,15 @@ public class City {
     }
 
 
+    @Override
+    public String toString() {
+        return "City{" +
+                "name: '" + name + '\'' +
+                ", number inhabitants: " + numInhab +
+                ", latCoord=" + latCoord +
+                ", longCoord=" + longCoord +
+                '}';
+    }
 }
 
 //(instance) methods for distance, adjacency?
