@@ -36,12 +36,14 @@ public class Main {
         Graph graph = new Graph(cityList.length);
         int maxDist = graph.initialize(cityList);
 
-        graph.adjacency(cityList, maxDist);
+        /*graph.adjacency(cityList, maxDist);
         graph.printDistMatrix();
         graph.payoffMatrix(cityList);
-        graph.printPayoffMatrix();
-        graph.reduce(cityList);
-
+        graph.printPayoffMatrix();*/
+        StaticGame game = new StaticGame(cityList);
+        game.printPayoffMatrix();
+        game.solve();
+        game.printPayoffMatrix();
 
         Location[] locationList = new Location[cityList.length];
         for (int i = 0; i < cityList.length; i++) {
