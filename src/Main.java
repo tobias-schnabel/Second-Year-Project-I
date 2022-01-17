@@ -43,7 +43,7 @@ public class Main {
         graph.setOutcomeMatrix(game.passMatrix());
         graph.printMatrix("outcome");
 
-
+        game.solveLocalSearch(graph);
 
     } //close main
 

@@ -6,6 +6,7 @@ public class Game {
     private final double[][] payoffMatrix;
     private final double totalDemand;
     private int[] rationalStrategies;
+    private double[][] adjMatrix;
 
     public Game(City[] cityList, double[][]payoffMatrix) {
         this.locations = cityList;
@@ -15,6 +16,9 @@ public class Game {
         this.totalDemand = cityList[0].getTotalPop(this.locations);
         this.payoffMatrix = payoffMatrix;
 
+    }
+    public void setAdjMatrix(Graph graph) {
+        this.adjMatrix = graph.adjMatrix;
     }
 
     public void solveIESDS() {
@@ -38,7 +42,6 @@ public class Game {
             }
         }
     } //close method
-
 
     public void reduce() {
         int n = this.locations.length;
@@ -85,23 +88,28 @@ public class Game {
         return this.payoffMatrix; //passes outcome matrix to print method
     }
 
-    public void localSearchSolve(City[] cityList, Graph graph){
-        int n = cityList.length;
+    public void solveLocalSearch(Graph graph){
+        this.setAdjMatrix(graph);
+        int n = this.locations.length;
         Random random = new Random();
-        int a = random.nextInt(n);
-        int b = random.nextInt(n);
+        //declare new vars
+        int a = random.nextInt(0, n);
+        int b = random.nextInt(0, n);
         double payoff1 = payoffMatrix[a][b];
         double payoff2 = payoffMatrix[b][a];
         boolean moved1, moved2;
         int new_a = a, new_b = b;
         int old_a = a, old_b = b;
+        int older_a = a, older_b = b;
+
         do{
             moved1 = false;
             moved2 = false;
             for(int i = 0; i < n; i++){ //P1 considers moving
-                if((graph.adjMatrix[a][i] == 1) && (payoff1 < payoffMatrix[i][b])){
+                if((this.adjMatrix[a][i] == 1) && (payoff1 < payoffMatrix[i][b])){
                     moved1 = true;
                     new_a = i;
+                    old_a = older_a; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
                     payoff1 = payoffMatrix[i][b];
                 }
             }
@@ -111,21 +119,25 @@ public class Game {
                 if((graph.adjMatrix[b][j] == 1) && (payoff2 < payoffMatrix[j][a])){
                     moved2 = true;
                     new_b = j;
+                    old_b = older_b; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
                     payoff2 = payoffMatrix[j][a];
                 }
             }
             b = new_b;
-        } while((moved1 || moved2) && ((a != old_a) || (b != old_b)));
+        } while((moved1 || moved2) && (((a != old_a) && (a != older_a)) || ((b != old_b) && (b != older_b))) );
 
-        System.out.println("Player 1 initially chooses " + cityList[old_a].getName());
-        System.out.println("Player 2 initially chooses " + cityList[old_b].getName());
+        System.out.println("********************************************************************");
+        System.out.println("Local Search:");
+        System.out.println("Player 1 initially chooses " + this.locations[old_a].getName());
+        System.out.println("Player 2 initially chooses " + this.locations[old_b].getName());
         System.out.println("---------------------------------------------");
         System.out.println("Local Search Solution:");
-        System.out.println("Player 1 chooses " + cityList[a].getName());
-        System.out.println("Player 2 chooses " + cityList[b].getName());
+        System.out.println("Player 1 chooses " + this.locations[a].getName());
+        System.out.println("Player 2 chooses " + this.locations[b].getName());
+        System.out.println("---------------------------------------------");
         System.out.print("They get " + payoffMatrix[a][b] + " and " + payoffMatrix[b][a]);
         System.out.println(" customers respectively.");
-        System.out.println("---------------------------------------------");
+        System.out.println("********************************************************************");
 
     }
 } //close class
