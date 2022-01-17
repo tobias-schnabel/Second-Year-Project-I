@@ -78,7 +78,7 @@ public class Graph {
 //        System.out.println(stack1.lastElement());
 //    } //close method
 
-   public void reduce2 (City[] cityList) {
+   /*public void reduce2 (City[] cityList) {
       int n = cityList.length;
       int[] optimalStrategies = new int[n];
       for(int strategy: optimalStrategies){
@@ -102,7 +102,7 @@ public class Graph {
             }
          }  
       } 
-   }
+   }*/
 
    public void adjacency (City[] cityList, int threshold) {
       for (int i =0; i < cityList.length; i++) {

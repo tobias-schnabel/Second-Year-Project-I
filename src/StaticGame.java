@@ -2,14 +2,16 @@ import java.util.*;
 
 public class StaticGame {
    private final int numberOfPlayers;
-   private final City[] locations;
-   private final double[][] payoffMatrix;
-   private final double totalDemand;
+   private City[] locations;
+   private double[][] payoffMatrix;
+   private double totalDemand;
+   private int[] rationalStrategies;
 
    public StaticGame(City[] cityList) {
       this.locations = cityList;
       this.numberOfPlayers = 2;
       int n = cityList.length;
+      this.rationalStrategies = new int[n];
       double totalPop = 0;
       for (City city : cityList){
          totalPop += (double) city.getNumInhab();
@@ -57,6 +59,21 @@ public class StaticGame {
    for(int i = 0; i < n-1; i++){
    this.reduce();
    }
+   System.out.println("Solution:");
+   for(int i = 0; i < n; i++){
+   if(this.rationalStrategies[i] > 0){
+   for(int j = 0; j < n; j++){
+   if(this.rationalStrategies[j] > 0){
+   System.out.println("Player 1 chooses " + this.locations[i].getName());
+   System.out.println("Player 2 chooses " + this.locations[j].getName());
+   System.out.print("They get " + this.payoffMatrix[i][j] + " and ");
+   System.out.print(this.totalDemand - this.payoffMatrix[i][j]);
+   System.out.println(" customers respectively.");
+   System.out.println("---------------------------------------------");
+   }
+   }
+   }
+   }
    }
    
    public void reduce() {
@@ -96,7 +113,8 @@ public class StaticGame {
                this.payoffMatrix[j][i] = 0;
             }
          }
-       }  
+       }
+       this.rationalStrategies = strategies;  
       } 
    }
 
