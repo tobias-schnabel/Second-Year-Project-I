@@ -6,15 +6,20 @@ int customers;
         this.customers = 0;
     }
 
-
-
-    public void setCustomers(int x) {
-        this.customers = x;
+    public Location[] clonelist (City[] cityList) {
+        assert cityList != null;
+        Location[] locationList = new Location[cityList.length];
+        for (int i = 0; i < cityList.length; i++) {
+            locationList[i] = new Location(cityList[i].getName(), cityList[i].getNumInhab(), cityList[i].getLatCoord(), cityList[i].getLongCoord(), 0);
+        }
+        return locationList;
     }
+        public void setCustomers(int x) {
+            this.customers = x;
+        }
 
-    public void addCustomers(int x) {
-        this.customers += x;
-    }
-
+        public void addCustomers(int x) {
+            this.customers += x;
+        }
 
 }

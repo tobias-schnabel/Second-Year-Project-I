@@ -17,13 +17,9 @@ public class Main {
             e.printStackTrace();
         }
 
-       //i created a new class to centralize all the testing of everything
+       //test
+        Test test = new Test(cityList);
         assert cityList != null;
-        Location[] locationList = new Location[cityList.length];
-        for (int i = 0; i < cityList.length; i++) {
-            locationList[i] = new Location(cityList[i].getName(), cityList[i].getNumInhab(), cityList[i].getLatCoord(), cityList[i].getLongCoord(), 0);
-        }
-        Test test = new Test(cityList, locationList);
         test.cityMethods((int) cityList[0].distance(cityList[1]) + 1);
 
 
@@ -43,10 +39,17 @@ public class Main {
         graph.setOutcomeMatrix(game.passMatrix());
         graph.printMatrix("outcome");
 
-        game.solveLocalSearch(graph);
+        //Test with custom threshold
+        Scanner in = new Scanner(System.in);
+        Test iesds_test = new Test(cityList);
+        System.out.println("Please enter an integer number as a threshold for the adjacency matrix: ");
+        int threshold = in.nextInt();
+        in.close();
 
-        Test gameTest = new Test(cityList, locationList);
-        gameTest.localSearch(100, 50);
+        iesds_test.solveIESDS(threshold);
+
+        Test gameTest = new Test(cityList);
+        gameTest.compareLocalSearch(100, maxDist);
 
     } //close main
 

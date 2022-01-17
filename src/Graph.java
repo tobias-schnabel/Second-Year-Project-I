@@ -51,12 +51,29 @@ public class Graph {
       return payoffMatrix;
    } //close method
 
+   public double[][] payoffMatrixCustom(City[] cityList, int threshold) {
+      int totalPop = cityList[0].getTotalPop(cityList);
+      int n = cityList.length;
+
+      for(int i = 0; i < n; i++){
+         for(int j = 0; j < n; j++){
+               for(int k = 0; k < n; k++){
+                  if (i != j){
+                     if (cityList[i].isAdjacent(cityList[k], threshold) && cityList[i].distance(cityList[k]) < cityList[j].distance(cityList[k])) {
+                        payoffMatrix[i][j] += cityList[k].getNumInhab();
+                     }
+                  } else if (i == j && cityList[i].isAdjacent(cityList[k], threshold)) {
+                     payoffMatrix[i][j] += cityList[k].getNumInhab() / (double) 2;
+                  }
+                } //innermost for
+         } //close second for
+      } //close outer for
+      return payoffMatrix;
+   } //close method
+
    public void setOutcomeMatrix(double[][] result) {
       this.outcomeMatrix = result;
    }
-
-
-   
 
    public void adjacency_binary(City[] cityList, int threshold) {
       for (int i =0; i < cityList.length; i++) {

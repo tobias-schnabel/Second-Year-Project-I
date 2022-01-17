@@ -1,6 +1,6 @@
 public class City {
 
-    //declare immutabe city attributes
+    //declare immutable city attributes
     private final String name;
     private final int numInhab;
     private final double latCoord;
@@ -81,6 +81,15 @@ public class City {
             totalPop += (double) city.getNumInhab();
         }
         return totalPop;
+    }
+
+    public Location[] clonelist (City[] cityList) {
+        assert cityList != null;
+        Location[] locationList = new Location[cityList.length];
+        for (int i = 0; i < cityList.length; i++) {
+            locationList[i] = new Location(cityList[i].getName(), cityList[i].getNumInhab(), cityList[i].getLatCoord(), cityList[i].getLongCoord(), 0);
+        }
+        return locationList;
     }
 } //close class
 
