@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 public class Graph {
    private final int vertex;
@@ -103,13 +103,64 @@ public class Graph {
          }  
       } 
    }*/
+   
+   public void localSearchSolve(City[] cityList){
+      int n = this.vertex;
+      Random random = new Random();
+      int a = random.nextInt(n);
+      int b = random.nextInt(n);
+      double payoff1 = payoffMatrix[a][b];
+      double payoff2 = payoffMatrix[b][a];
+      boolean moved1, moved2;
+      int new_a = a, new_b = b;
+      int old_a = a, old_b = b;
+      do{
+         moved1 = false;
+         moved2 = false;
+         for(int i = 0; i < n; i++){ //P1 considers moving
+            if((this.adjMatrix[a][i] == 1) && (payoff1 < payoffMatrix[i][b])){
+               moved1 = true;
+               new_a = i;
+               payoff1 = payoffMatrix[i][b];
+            }
+         }
+         a = new_a; //move is finalized at the place with highest utility
+      
+         for(int j = 0; j < n; j++){ //P2 considers moving
+            if((this.adjMatrix[b][j] == 1) && (payoff2 < payoffMatrix[j][a])){
+               moved2 = true;
+               new_b = j;
+               payoff2 = payoffMatrix[j][a];
+            }
+         }
+         b = new_b;
+      } while((moved1 || moved2) && ((a != old_a) || (b != old_b)));
+      
+      System.out.println("Player 1 initially chooses " + cityList[old_a].getName());
+      System.out.println("Player 2 initially chooses " + cityList[old_b].getName());
+      System.out.println("---------------------------------------------");
+      System.out.println("Local Search Solution:");
+      System.out.println("Player 1 chooses " + cityList[a].getName());
+      System.out.println("Player 2 chooses " + cityList[b].getName());
+      System.out.print("They get " + payoffMatrix[a][b] + " and " + payoffMatrix[b][a]);
+      System.out.println(" customers respectively.");
+      System.out.println("---------------------------------------------");
+   
+   }
+   
 
    public void adjacency (City[] cityList, int threshold) {
       for (int i =0; i < cityList.length; i++) {
          for (int j = cityList.length -1 ; j >=0; j--){
             if (cityList[i].isAdjacent(cityList[j], threshold)){
-               adjMatrix[i][j] = cityList[i].distance(cityList[j]); //adds weighted edge
-               adjMatrix[j][i] = cityList[j].distance(cityList[i]); //adds weighted edge back (undirected graph)
+            if(i == j){
+            adjMatrix[i][j] = 0;
+            } else {
+               adjMatrix[i][j] = 1;
+               adjMatrix[j][i] = 1;
+               //adjMatrix[i][j] = cityList[i].distance(cityList[j]); //adds weighted edge
+               //adjMatrix[j][i] = cityList[j].distance(cityList[i]); //adds weighted edge back (undirected graph)
+               }
             }
          } //inner for
       } //outer for
