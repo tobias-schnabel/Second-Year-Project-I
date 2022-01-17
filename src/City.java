@@ -43,7 +43,7 @@ public class City {
         if (retVal) {
             System.out.println(this.name + " is adjacent to " + that.name + " for a threshold of " + threshold + "km, distance: " + this.distance(that));
         } else {
-            System.out.println(this.name + " is not adjacent to " + that.name + "for a threshold of " + threshold + "km, distance: " + this.distance(that));
+            System.out.println(this.name + " is not adjacent to " + that.name + " for a threshold of " + threshold + "km, distance: " + this.distance(that));
         }
     }
 
@@ -74,5 +74,13 @@ public class City {
                 ", longCoord=" + longCoord +
                 '}';
     }
-}
+
+    public  int getTotalPop (City[] cityList) {
+        int totalPop = 0;
+        for (City city : cityList){
+            totalPop += (double) city.getNumInhab();
+        }
+        return totalPop;
+    }
+} //close class
 

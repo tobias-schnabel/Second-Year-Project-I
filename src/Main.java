@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -9,49 +8,43 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "InputExample.txt";
+        String filename = "src/InputExample.txt";
         try{
             cityList = importList(filename);
-            System.out.println("Import successful.");
+            System.out.println("Import successful.\n");
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
 
-        //initial testing of I/O, city methods
-        System.out.println(Objects.requireNonNull(cityList)[0]);
-        System.out.println(Objects.requireNonNull(cityList[1]));
-        System.out.println(cityList[0].distance(cityList[1]));
-        cityList[0].isAdjacentTest(cityList[1], 25);
-        cityList[0].isAdjacentTest(cityList[1], 254);
-
-        for (int i = 0; i < cityList.length; i++){
-            for (int j = 0; j < cityList.length; j++){
-                System.out.println(cityList[i].getName()+ " to " + cityList[j].getName() + ": " + cityList[i].distance(cityList[j]));
-            }
-        }
-        System.out.println();
-
-        //initial testing of graph methods
-        Graph graph = new Graph(cityList.length);
-        int maxDist = graph.initialize(cityList);
-
-        //graph.adjacency(cityList, maxDist);
-        //graph.printDistMatrix();
-        graph.adjacency(cityList, 30);
-        graph.printAdjMatrix();
-        graph.payoffMatrix(cityList);
-        graph.printPayoffMatrix();
-        graph.localSearchSolve(cityList);
-        StaticGame game = new StaticGame(cityList);
-        game.printPayoffMatrix();
-        game.solve();
-        game.printPayoffMatrix();
-
+       //i created a new class to centralize all the testing of everything
+        assert cityList != null;
         Location[] locationList = new Location[cityList.length];
         for (int i = 0; i < cityList.length; i++) {
             locationList[i] = new Location(cityList[i].getName(), cityList[i].getNumInhab(), cityList[i].getLatCoord(), cityList[i].getLongCoord(), 0);
         }
+        Test test = new Test(cityList, locationList);
+        test.cityMethods((int) cityList[0].distance(cityList[1]) + 1);
+
+
+        //set up graph
+        Graph graph = new Graph(cityList.length);
+        int maxDist = graph.initialize(cityList); //fill distance matrix
+        graph.adjacency_binary(cityList, maxDist); //fill adjacency_binary matrix
+
+
+        //construct payoff matrix
+        double[][]payoffMatrix = graph.payoffMatrix(cityList);
+        //use payoff matrix to construct game
+        Game game = new Game(cityList, payoffMatrix);
+        //solveIESDS game
+        game.solveIESDS();
+        //print outcome
+        graph.setOutcomeMatrix(game.passMatrix());
+        graph.printMatrix("outcome");
+
+
+
     } //close main
 
     public static City[] importList(String filename)
