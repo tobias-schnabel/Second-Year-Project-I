@@ -30,7 +30,7 @@ public class Main {
         //set up graph
         Graph graph = new Graph(cityList.length);
         int maxDist = graph.initialize(cityList); //fill distance matrix
-        graph.adjacency_binary(cityList, maxDist); //fill adjacency_binary matrix
+        graph.adjacency(cityList, maxDist); //fill adjacency matrix
 
 
         //construct payoff matrix
@@ -44,6 +44,9 @@ public class Main {
         graph.printMatrix("outcome");
 
         game.solveLocalSearch(graph);
+
+        Test gameTest = new Test(cityList, locationList);
+        gameTest.localSearch(100, 50);
 
     } //close main
 

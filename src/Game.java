@@ -8,6 +8,12 @@ public class Game {
     private int[] rationalStrategies;
     private double[][] adjMatrix;
 
+    public int[] getResult() {
+        return result;
+    }
+
+    private int[] result;
+
     public Game(City[] cityList, double[][]payoffMatrix) {
         this.locations = cityList;
         int numberOfPlayers = 2;
@@ -15,10 +21,15 @@ public class Game {
         this.rationalStrategies = new int[n];
         this.totalDemand = cityList[0].getTotalPop(this.locations);
         this.payoffMatrix = payoffMatrix;
+        this.result = new int[]{0, 0};
 
     }
     public void setAdjMatrix(Graph graph) {
         this.adjMatrix = graph.adjMatrix;
+    }
+
+    public City[] getLocations() {
+        return locations;
     }
 
     public void solveIESDS() {
@@ -106,7 +117,7 @@ public class Game {
             moved1 = false;
             moved2 = false;
             for(int i = 0; i < n; i++){ //P1 considers moving
-                if((this.adjMatrix[a][i] == 1) && (payoff1 < payoffMatrix[i][b])){
+                if((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])){
                     moved1 = true;
                     new_a = i;
                     old_a = older_a; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
@@ -116,7 +127,7 @@ public class Game {
             a = new_a; //move is finalized at the place with highest utility
 
             for(int j = 0; j < n; j++){ //P2 considers moving
-                if((graph.adjMatrix[b][j] == 1) && (payoff2 < payoffMatrix[j][a])){
+                if((graph.adjMatrix[b][j] > 0) && (payoff2 < payoffMatrix[j][a])){
                     moved2 = true;
                     new_b = j;
                     old_b = older_b; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
@@ -139,5 +150,48 @@ public class Game {
         System.out.println(" customers respectively.");
         System.out.println("********************************************************************");
 
+        this.result[0] = a;
+        this.result[1] = b;
+    } //close method
+
+    public void solveLocalSearchQuietly(Graph graph) {
+        this.setAdjMatrix(graph);
+        int n = this.locations.length;
+        Random random = new Random();
+        //declare new vars
+        int a = random.nextInt(0, n);
+        int b = random.nextInt(0, n);
+        double payoff1 = payoffMatrix[a][b];
+        double payoff2 = payoffMatrix[b][a];
+        boolean moved1, moved2;
+        int new_a = a, new_b = b;
+        int old_a = a, old_b = b;
+        int older_a = a, older_b = b;
+
+        do {
+            moved1 = false;
+            moved2 = false;
+            for (int i = 0; i < n; i++) { //P1 considers moving
+                if ((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])) {
+                    moved1 = true;
+                    new_a = i;
+                    old_a = older_a; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
+                    payoff1 = payoffMatrix[i][b];
+                }
+            }
+            a = new_a; //move is finalized at the place with highest utility
+
+            for (int j = 0; j < n; j++) { //P2 considers moving
+                if ((graph.adjMatrix[b][j] > 0) && (payoff2 < payoffMatrix[j][a])) {
+                    moved2 = true;
+                    new_b = j;
+                    old_b = older_b; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
+                    payoff2 = payoffMatrix[j][a];
+                }
+            }
+            b = new_b;
+        } while ((moved1 || moved2) && (((a != old_a) && (a != older_a)) || ((b != old_b) && (b != older_b))));
+        this.result[0] = a;
+        this.result[1] = b;
     }
 } //close class

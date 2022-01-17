@@ -6,6 +6,8 @@ int customers;
         this.customers = 0;
     }
 
+
+
     public void setCustomers(int x) {
         this.customers = x;
     }
