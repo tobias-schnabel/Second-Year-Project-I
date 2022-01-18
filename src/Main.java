@@ -37,7 +37,7 @@ public class Main {
         game.solveIESDS();
         //print outcome
         graph.setOutcomeMatrix(game.passMatrix());
-        graph.printMatrix("Outcome");
+        graph.printMatrix("outcome");
         
         
 
@@ -67,7 +67,7 @@ public class Main {
         Game budgetGame = new Game(cityList, revenueMatrix);
         budgetGame.solveIESDS();
         budgetGraph.setOutcomeMatrix(budgetGame.passMatrix());
-        budgetGraph.printMatrix("Outcome");
+        budgetGraph.printMatrix("outcome");
 
     } //close main
 

@@ -109,17 +109,16 @@ public class Game {
         boolean moved1, moved2;
         int new_a = a, new_b = b;
         int old_a = a, old_b = b;
-        int older_a = a, older_b = b;
+        int counter = 0;
 
         do{
             moved1 = false;
             moved2 = false;
-            payoff1 = payoffMatrix[a][b];//updates payoff1
+            payoff1 = payoffMatrix[a][b]; //updates payoff1
             for(int i = 0; i < n; i++){ //P1 considers moving
                 if((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])){
                     moved1 = true;
-                    new_a = i;
-                    old_a = older_a; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
+                    new_a = i;                    
                     payoff1 = payoffMatrix[i][b];
                 }
             }
@@ -130,12 +129,12 @@ public class Game {
                 if((graph.adjMatrix[b][j] > 0) && (payoff2 < payoffMatrix[j][a])){
                     moved2 = true;
                     new_b = j;
-                    old_b = older_b; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
                     payoff2 = payoffMatrix[j][a];
                 }
             }
             b = new_b;
-        } while((moved1 || moved2) && (((a != old_a) && (a != older_a)) || ((b != old_b) && (b != older_b))) );
+            counter++;
+        } while((moved1 || moved2) && (counter < n*n) );
 
         System.out.println("********************************************************************");
         System.out.println("Local Search:");
@@ -166,7 +165,7 @@ public class Game {
         boolean moved1, moved2;
         int new_a = a, new_b = b;
         int old_a = a, old_b = b;
-        int older_a = a, older_b = b;
+        int counter = 0;
 
         do {
             moved1 = false;
@@ -176,7 +175,6 @@ public class Game {
                 if ((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])) {
                     moved1 = true;
                     new_a = i;
-                    old_a = older_a; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
                     payoff1 = payoffMatrix[i][b];
                 }
             }
@@ -187,12 +185,12 @@ public class Game {
                 if ((graph.adjMatrix[b][j] > 0) && (payoff2 < payoffMatrix[j][a])) {
                     moved2 = true;
                     new_b = j;
-                    old_b = older_b; //lagged by one period to prevent infinite switching between same 2 cities (i.e. 2 Nash Eq)
                     payoff2 = payoffMatrix[j][a];
                 }
             }
             b = new_b;
-        } while ((moved1 || moved2) && (((a != old_a) && (a != older_a)) || ((b != old_b) && (b != older_b))));
+            counter++;
+        } while ((moved1 || moved2) && (counter < n*n));
         this.result[0] = a;
         this.result[1] = b;
     }
