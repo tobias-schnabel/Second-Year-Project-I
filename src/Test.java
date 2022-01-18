@@ -24,15 +24,15 @@ public class Test {
     public void solveIESDS (int threshold) {
         System.out.println("\n***************************************TEST***************************************");
         System.out.println("For a threshold of " + threshold + " km: ");
-        Graph iesds_test_graph = new Graph(this.cityList.length);
-        iesds_test_graph.adjacency(cityList, threshold);
-        double[][] payoffMatrix = iesds_test_graph.payoffMatrixCustom(cityList, threshold);
+        Graph threshold_test_graph = new Graph(this.cityList.length);
+        threshold_test_graph.adjacency(cityList, threshold);
+        double[][] payoffMatrix = threshold_test_graph.payoffMatrixCustom(cityList, threshold);
 
-        Game iesds_test_game = new Game(cityList, payoffMatrix);
-        iesds_test_game.solveIESDS();
+        Game threshold_test_game = new Game(cityList, payoffMatrix);
+        threshold_test_game.solveIESDS();
         //print outcome
-        iesds_test_graph.setOutcomeMatrix(iesds_test_game.passMatrix());
-        iesds_test_graph.printMatrix("outcome");
+        threshold_test_graph.setOutcomeMatrix(threshold_test_game.passMatrix());
+        threshold_test_graph.printMatrix("outcome");
 
         System.out.println("**********************************TEST END***************************************\n");
     }

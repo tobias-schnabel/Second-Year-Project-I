@@ -41,12 +41,13 @@ public class Main {
 
         //Test with custom threshold
         Scanner in = new Scanner(System.in);
-        Test iesds_test = new Test(cityList);
+        Test threshold_test = new Test(cityList);
         System.out.println("Please enter an integer number as a threshold for the adjacency matrix: ");
         int threshold = in.nextInt();
         in.close();
 
-        iesds_test.solveIESDS(threshold);
+        threshold_test.solveIESDS(threshold);
+        threshold_test.localSearch(100, threshold);
 
         Test gameTest = new Test(cityList);
         gameTest.compareLocalSearch(100, maxDist);

@@ -40,9 +40,9 @@ public class Graph {
             if(i == j){
                payoffMatrix[i][j] += totalPop / (double) 2;
             } else {
-               for(int k = 0; k < n; k++){
-                  if(cityList[i].distance(cityList[k]) < cityList[j].distance(cityList[k])){
-                     payoffMatrix[i][j] += cityList[k].getNumInhab();
+               for (City city : cityList) {
+                  if (cityList[i].distance(city) < cityList[j].distance(city)) {
+                     payoffMatrix[i][j] += city.getNumInhab();
                   }
                } //innermost for
             } //close else
@@ -57,15 +57,15 @@ public class Graph {
 
       for(int i = 0; i < n; i++){
          for(int j = 0; j < n; j++){
-               for(int k = 0; k < n; k++){
-                  if (i != j){
-                     if (cityList[i].isAdjacent(cityList[k], threshold) && cityList[i].distance(cityList[k]) < cityList[j].distance(cityList[k])) {
-                        payoffMatrix[i][j] += cityList[k].getNumInhab();
-                     }
-                  } else if (i == j && cityList[i].isAdjacent(cityList[k], threshold)) {
-                     payoffMatrix[i][j] += cityList[k].getNumInhab() / (double) 2;
+            for (City city : cityList) {
+               if (i != j) {
+                  if (cityList[i].isAdjacent(city, threshold) && cityList[i].distance(city) < cityList[j].distance(city)) {
+                     payoffMatrix[i][j] += city.getNumInhab();
                   }
-                } //innermost for
+               } else if (cityList[i].isAdjacent(city, threshold)) {
+                  payoffMatrix[i][j] += city.getNumInhab() / (double) 2;
+               }
+            } //innermost for
          } //close second for
       } //close outer for
       return payoffMatrix;
@@ -74,21 +74,6 @@ public class Graph {
    public void setOutcomeMatrix(double[][] result) {
       this.outcomeMatrix = result;
    }
-
-   public void adjacency_binary(City[] cityList, int threshold) {
-      for (int i =0; i < cityList.length; i++) {
-         for (int j = cityList.length -1 ; j >=0; j--){
-            if (cityList[i].isAdjacent(cityList[j], threshold)){
-            if(i == j){
-            adjMatrix[i][j] = 0;
-            } else {
-               adjMatrix[i][j] = 1;
-               adjMatrix[j][i] = 1;
-               }
-            }
-         } //inner for
-      } //outer for
-   } //close method
 
    public void adjacency(City[] cityList, int threshold) {
       for (int i =0; i < cityList.length; i++) {
@@ -131,11 +116,9 @@ public class Graph {
             }
          } //inner for
       } // outer for
-      System.out.println("");
+      System.out.print("\n");
    } //close method
 
 
 } //close class
 
-//adjacency_binary matrix or
-//adjacency_binary lists (arraylists)
