@@ -48,13 +48,13 @@ public class Test {
 
         System.out.println("\n***************************************TEST***************************************");
         System.out.println("The maximal distance between any two cities in the list is " + maxDist + " km.");
-        System.out.print("When solving the game using the local search method " + iterations + " times with a threshold of " + threshold);
+        System.out.print("When solving the game with two players using the local search method " + iterations + " times with a threshold of " + threshold);
         System.out.print(" km, we obtain the following results: \n");
 
         Game test_game = new Game(cityList, payoffMatrix);
         int[] resultList = new int[cityList.length];
 
-        for (int i = 0; i <= iterations; i++) {
+        for (int i = 0; i < iterations; i++) {
             test_game.solveLocalSearchQuietly(test_graph);
 
             int[] results = test_game.getResult();
@@ -64,7 +64,7 @@ public class Test {
 
         for (int i = 0; i < cityList.length; i++) {
             if (resultList[i] > 0) {
-                System.out.println(cityList[i].getName() + " was chosen " + resultList[i] + "/" + iterations + " times.");
+                System.out.println(cityList[i].getName() + " was chosen " + resultList[i] + "/" + (2*iterations) + " times.");
             }
         } //close for
         System.out.println("**********************************TEST END***************************************\n");

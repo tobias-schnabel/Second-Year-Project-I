@@ -62,7 +62,7 @@ public class Graph {
                   if (cityList[i].isAdjacent(city, threshold) && cityList[i].distance(city) < cityList[j].distance(city)) {
                      payoffMatrix[i][j] += city.getNumInhab();
                   }
-               } else if (cityList[i].isAdjacent(city, threshold)) {
+               } else { //if (cityList[i].isAdjacent(city, threshold)) {
                   payoffMatrix[i][j] += city.getNumInhab() / (double) 2;
                }
             } //innermost for

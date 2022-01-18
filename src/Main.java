@@ -8,7 +8,7 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "src/InputExample.txt";
+        String filename = "InputExample.txt";
         try{
             cityList = importList(filename);
             System.out.println("Import successful.\n");

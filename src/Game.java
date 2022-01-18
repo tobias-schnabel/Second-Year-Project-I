@@ -44,8 +44,7 @@ public class Game {
                 for(int j = 0; j < n; j++){
                     if(this.rationalStrategies[j] > 0){
                         System.out.println("Player 1 chooses " + this.locations[i].getName() + ", Player 2 chooses " + this.locations[j].getName() + ".");
-                        System.out.print("They get " + this.payoffMatrix[i][j] + " and ");
-                        System.out.print(this.totalDemand - this.payoffMatrix[i][j]);
+                        System.out.print("They get " + this.payoffMatrix[i][j] + " and " + this.payoffMatrix[j][i]);
                         System.out.println(" customers respectively.");
                         System.out.println("********************************************************************");
                     }
@@ -104,8 +103,8 @@ public class Game {
         int n = this.locations.length;
         Random random = new Random();
         //declare new vars
-        int a = random.nextInt(0, n);
-        int b = random.nextInt(0, n);
+        int a = random.nextInt(n);
+        int b = random.nextInt(n);
         double payoff1 = payoffMatrix[a][b];
         double payoff2 = payoffMatrix[b][a];
         boolean moved1, moved2;
@@ -159,8 +158,8 @@ public class Game {
         int n = this.locations.length;
         Random random = new Random();
         //declare new vars
-        int a = random.nextInt(0, n);
-        int b = random.nextInt(0, n);
+        int a = random.nextInt(n);
+        int b = random.nextInt(n);
         double payoff1 = payoffMatrix[a][b];
         double payoff2 = payoffMatrix[b][a];
         boolean moved1, moved2;
