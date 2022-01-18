@@ -37,7 +37,9 @@ public class Main {
         game.solveIESDS();
         //print outcome
         graph.setOutcomeMatrix(game.passMatrix());
-        graph.printMatrix("outcome");
+        graph.printMatrix("Outcome");
+        
+        
 
         //Test with custom threshold
         Scanner in = new Scanner(System.in);

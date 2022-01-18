@@ -105,8 +105,7 @@ public class Game {
         //declare new vars
         int a = random.nextInt(n);
         int b = random.nextInt(n);
-        double payoff1 = payoffMatrix[a][b];
-        double payoff2 = payoffMatrix[b][a];
+        double payoff1, payoff2;
         boolean moved1, moved2;
         int new_a = a, new_b = b;
         int old_a = a, old_b = b;
@@ -115,6 +114,7 @@ public class Game {
         do{
             moved1 = false;
             moved2 = false;
+            payoff1 = payoffMatrix[a][b];//updates payoff1
             for(int i = 0; i < n; i++){ //P1 considers moving
                 if((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])){
                     moved1 = true;
@@ -124,6 +124,7 @@ public class Game {
                 }
             }
             a = new_a; //move is finalized at the place with highest utility
+            payoff2 = payoffMatrix[b][a]; //updates payoff2
 
             for(int j = 0; j < n; j++){ //P2 considers moving
                 if((graph.adjMatrix[b][j] > 0) && (payoff2 < payoffMatrix[j][a])){
@@ -170,6 +171,7 @@ public class Game {
         do {
             moved1 = false;
             moved2 = false;
+            payoff1 = payoffMatrix[a][b]; //updates payoff1
             for (int i = 0; i < n; i++) { //P1 considers moving
                 if ((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])) {
                     moved1 = true;
@@ -179,7 +181,8 @@ public class Game {
                 }
             }
             a = new_a; //move is finalized at the place with highest utility
-
+            payoff2 = payoffMatrix[b][a]; //updates payoff2
+            
             for (int j = 0; j < n; j++) { //P2 considers moving
                 if ((graph.adjMatrix[b][j] > 0) && (payoff2 < payoffMatrix[j][a])) {
                     moved2 = true;
