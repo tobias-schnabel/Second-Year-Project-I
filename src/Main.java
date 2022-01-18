@@ -55,10 +55,9 @@ public class Main {
         gameTest.compareLocalSearch(100, maxDist);
 
         //Test with limited budget
-        Scanner in2 = new Scanner(System.in);
         Graph budgetGraph = new Graph(cityList.length);
 
-       System.out.println("Please enter an integer number as a threshold for the adjacency matrix: ");
+        System.out.println("Please enter an integer number as a threshold for the adjacency matrix: ");
         int threshold_budget = in.nextInt();
         System.out.println("Please enter an integer number for each person's budget");
         int budget = in.nextInt();
