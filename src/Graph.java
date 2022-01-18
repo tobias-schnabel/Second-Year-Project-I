@@ -71,6 +71,27 @@ public class Graph {
       return payoffMatrix;
    } //close method
 
+   public double[][] payoffMatrixBudget(City[] cityList, int threshold, int budget) {
+      int totalPop = cityList[0].getTotalPop(cityList);
+      int n = cityList.length;
+
+      for(int i = 0; i < n; i++){
+         for(int j = 0; j < n; j++){
+            for (City city : cityList) {
+               if (i != j) {
+                  if (cityList[i].isAdjacent(city, threshold) && cityList[i].distance(city) < cityList[j].distance(city)) {
+
+                     payoffMatrix[i][j] += cityList[i].getRevenue(city, threshold, budget);
+                  }
+               } else { //if (cityList[i].isAdjacent(city, threshold)) {
+                  payoffMatrix[i][j] += cityList[i].getRevenue(city, threshold, budget) / (double) 2;
+               }
+            } //innermost for
+         } //close second for
+      } //close outer for
+      return payoffMatrix;
+   } //close method
+
    public void setOutcomeMatrix(double[][] result) {
       this.outcomeMatrix = result;
    }

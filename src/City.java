@@ -47,6 +47,16 @@ public class City {
         }
     }
 
+    public double  getRevenue (City that, int threshold, int budget) {
+        double distance = this.distance(that);
+        if (distance <= threshold) {
+            double revenue = ((1-(distance / (double) threshold)) * budget); //first part of calculation is percentage of "max" distance, which multiplied with budget gives us "wilingness to pay"
+            return revenue * that.getNumInhab();
+        } else {
+            return 0;
+        }
+    }
+
     //getters for attributes
     public String getName() {
         return name;

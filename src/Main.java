@@ -8,7 +8,7 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "InputExample.txt";
+        String filename = "src/InputExample.txt";
         try{
             cityList = importList(filename);
             System.out.println("Import successful.\n");
@@ -46,13 +46,29 @@ public class Main {
         Test threshold_test = new Test(cityList);
         System.out.println("Please enter an integer number as a threshold for the adjacency matrix: ");
         int threshold = in.nextInt();
-        in.close();
+
 
         threshold_test.solveIESDS(threshold);
         threshold_test.localSearch(100, threshold);
 
         Test gameTest = new Test(cityList);
         gameTest.compareLocalSearch(100, maxDist);
+
+        //Test with limited budget
+        Scanner in2 = new Scanner(System.in);
+        Graph budgetGraph = new Graph(cityList.length);
+
+       System.out.println("Please enter an integer number as a threshold for the adjacency matrix: ");
+        int threshold_budget = in.nextInt();
+        System.out.println("Please enter an integer number for each person's budget");
+        int budget = in.nextInt();
+        in.close();
+
+        double[][] revenueMatrix = budgetGraph.payoffMatrixBudget(cityList, threshold_budget, budget);
+        Game budgetGame = new Game(cityList, revenueMatrix);
+        budgetGame.solveIESDS();
+        budgetGraph.setOutcomeMatrix(budgetGame.passMatrix());
+        budgetGraph.printMatrix("Outcome");
 
     } //close main
 
