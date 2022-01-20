@@ -1,3 +1,13 @@
+/* File: Game.java
+ * Authors: Emil Dotchev & Tobias Schnabel
+ * Student ids: i6244005 & i6255807 (respectively)
+ *   
+ * A class that creates a game of competing firms looking for an optimal location to start their business.
+ * Implements iterative elimination of strictly dominated strategies and local search methods for solving 
+ * the problem.
+ *
+ */
+
 import java.util.Random;
 
 public class Game {
@@ -32,9 +42,10 @@ public class Game {
         return locations;
     }
 
+   //Implements iterative elimination of strictly dominated strategies and prints out solution
     public void solveIESDS() {
         int n = this.locations.length;
-        for(int i = 0; i < n-1; i++){
+        for(int i = 0; i < n-1; i++){ //we need at most n-1 eliminations (at least one strategy remains)
             this.reduce();
         }
         System.out.println("********************************************************************");
@@ -53,41 +64,48 @@ public class Game {
         }
     } //close method
 
+   //Method implements one round of elimination of strictly dominated strategies
     public void reduce() {
         int n = this.locations.length;
-        int[] strategies = new int[n];
+        //we create an array to keep track of optimality of strategies
+        int[] strategies = new int[n]; 
 
         int p;
-        double optimal;
-        for(int j = 0; j < n; j++){
+        double optimal; //double keeps track of the optimal (highest) value in a column
+        for(int j = 0; j < n; j++){ //we go through all columns (strategies of P2)
             p = 0;
-            optimal = this.payoffMatrix[p][j];
+            optimal = this.payoffMatrix[p][j]; //we initialize it as the first value
 
-            while(optimal == 0 && p < n){
+            //we skip already nullified entries, because they can't be optimal
+            while(optimal == 0 && p < n){ 
                 optimal = this.payoffMatrix[p][j];
                 p++;
             } //close while
-
+            
+            //if the whole column is nullified, continue to the next column
             if(optimal == 0 && p == n){
                 continue;
             }
             for(int i = 0; i < n; i++){
-                if(optimal < this.payoffMatrix[i][j]){
+                //if we find a higher value in the column, we record it as optimal
+                if(optimal < this.payoffMatrix[i][j]){ 
                     optimal = this.payoffMatrix[i][j];
                 }
             }
+            //all the rows which have the optimal value at the end are optimal strategies given P2 plays j
             for(int k = 0; k < n; k++){
                 if(this.payoffMatrix[k][j] == optimal){
-                    strategies[k]++;
+                    strategies[k]++; //we keep track of which P1 strategies are optimal
                 }
             }
         } //close outer for
 
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < n; i++){ 
+            //if a strategy was never optimal, it is an irrational choice and thus strictly dominated (Pearce's Lemma)
             if(strategies[i] == 0){
                 for(int j = 0; j < n; j++){
-                    this.payoffMatrix[i][j] = 0;
-                    this.payoffMatrix[j][i] = 0;
+                    this.payoffMatrix[i][j] = 0; //we nullify the row (strategy of P1)
+                    this.payoffMatrix[j][i] = 0; //and also the column (P2's strategy) since the problem is symmetric
                 }
             }
         }
@@ -98,13 +116,15 @@ public class Game {
         return this.payoffMatrix; //passes outcome matrix to print method
     }
 
+    //Implements local search algorithm and prints out solution
     public void solveLocalSearch(Graph graph){
         this.setAdjMatrix(graph);
         int n = this.locations.length;
         Random random = new Random();
-        //declare new vars
+        //each player gets assigned a random location
         int a = random.nextInt(n);
         int b = random.nextInt(n);
+        //helping variables
         double payoff1, payoff2;
         boolean moved1, moved2;
         int new_a = a, new_b = b;
@@ -112,15 +132,18 @@ public class Game {
         int counter = 0;
 
         do{
-            moved1 = false;
+            //at the start of each round no one has moved
+            moved1 = false; 
             moved2 = false;
             payoff1 = payoffMatrix[a][b]; //updates payoff1
             for(int i = 0; i < n; i++){ //P1 considers moving
                 if((this.adjMatrix[a][i] > 0) && (payoff1 < payoffMatrix[i][b])){
+                    //if he finds a better payoff in an adjacent city, he moves
                     moved1 = true;
-                    new_a = i;                    
-                    payoff1 = payoffMatrix[i][b];
-                }
+                    //choice is recorded and payoff is updated 
+                    new_a = i;                   
+                    payoff1 = payoffMatrix[i][b]; 
+                } //loop continues since we need the best improvement
             }
             a = new_a; //move is finalized at the place with highest utility
             payoff2 = payoffMatrix[b][a]; //updates payoff2
@@ -133,7 +156,8 @@ public class Game {
                 }
             }
             b = new_b;
-            counter++;
+            counter++; //counter prevents an infinite loop
+            //loop continues until no one has incentive to improve (and thus doesn't move) or the counter clocks out
         } while((moved1 || moved2) && (counter < n*n) );
 
         System.out.println("********************************************************************");
@@ -148,11 +172,13 @@ public class Game {
         System.out.print("They get " + payoffMatrix[a][b] + " and " + payoffMatrix[b][a]);
         System.out.println(" customers respectively.");
         System.out.println("********************************************************************");
-
+        
+        //keep track of results
         this.result[0] = a;
         this.result[1] = b;
     } //close method
 
+    //Implements local search algorithm without printing out solution
     public void solveLocalSearchQuietly(Graph graph) {
         this.setAdjMatrix(graph);
         int n = this.locations.length;
@@ -160,8 +186,7 @@ public class Game {
         //declare new vars
         int a = random.nextInt(n);
         int b = random.nextInt(n);
-        double payoff1 = payoffMatrix[a][b];
-        double payoff2 = payoffMatrix[b][a];
+        double payoff1, payoff2;
         boolean moved1, moved2;
         int new_a = a, new_b = b;
         int old_a = a, old_b = b;

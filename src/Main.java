@@ -1,3 +1,12 @@
+/* File: Main.java
+ * Authors: Emil Dotchev & Tobias Schnabel
+ * Student ids: i6244005 & i6255807 (respectively)
+ *   
+ * Main class implementing methods from City, Game, Graph and Test classes. 
+ * Includes a method to import a list of city objects from a txt file.
+ *
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -71,6 +80,7 @@ public class Main {
 
     } //close main
 
+    //Method to read a city list from a file
     public static City[] importList(String filename)
 
         throws java.io.FileNotFoundException{

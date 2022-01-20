@@ -1,3 +1,12 @@
+/* File: City.java
+ * Authors: Emil Dotchev & Tobias Schnabel
+ * Student ids: i6244005 & i6255807 (respectively)
+ *   
+ * A class that creates a city object and implements distance, adjacency 
+ * and revenue methods.
+ *
+ */
+
 public class City {
 
     //declare immutable city attributes
@@ -33,11 +42,13 @@ public class City {
         final double c =  2 * Math.asin(Math.sqrt(a));
         return (radius * c) / 1000; // in km
     }
-
+   
+   //method checks for adjacency
     public boolean isAdjacent (City that, int threshold) {
         return this.distance(that) <= threshold; //comparison in km
     }
-
+   
+   //extended check for adjacency including outprint
     public void isAdjacentTest (City that, int threshold) {
         boolean retVal = this.distance(that) <= threshold; //comparison in km
         if (retVal) {
@@ -46,11 +57,13 @@ public class City {
             System.out.println(this.name + " is not adjacent to " + that.name + " for a threshold of " + threshold + "km, distance: " + this.distance(that));
         }
     }
-
+   
+   //calculates revenue from attracting customers from a nearby city given a threshold (in km) and a certain budget
     public double  getRevenue (City that, int threshold, int budget) {
         double distance = this.distance(that);
         if (distance <= threshold) {
-            double revenue = ((1-(distance / (double) threshold)) * budget); //first part of calculation is percentage of "max" distance, which multiplied with budget gives us "wilingness to pay"
+            //first part of calculation is percentage of "max" distance, which multiplied with budget gives us "wilingness to pay"
+            double revenue = ((1-(distance / (double) threshold)) * budget); 
             return revenue * that.getNumInhab();
         } else {
             return 0;
