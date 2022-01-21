@@ -17,7 +17,7 @@ public class Main {
 
         City[] cityList = null;
 
-        String filename = "src/InputExample.txt";
+        String filename = "src/Input_50_German_Cities.txt.txt";
         try{
             cityList = importList(filename);
             System.out.println("Import successful.\n");
@@ -105,7 +105,7 @@ public class Main {
     }
 
     public static double cleanData(String rawData) { //replaceAll("[.\\s']", "").replaceAll(",", ".").
-        String cleanstring = rawData.replaceAll("°",  "").replaceAll("′", "");
+        String cleanstring = rawData.replaceAll("°",  "").replaceAll("′", "").replaceAll(",", ".");
         return Double.parseDouble(cleanstring);
     }
 }
