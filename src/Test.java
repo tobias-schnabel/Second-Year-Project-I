@@ -83,7 +83,7 @@ public class Test {
     public void compareLocalSearch (int iterations, int maxDistance) { //tests the algorithm using different thresholds
 
         this.localSearch(iterations, maxDistance); //everything is connected
-        this.localSearch(iterations, maxDistance / 2);
-        this.localSearch(iterations, maxDistance / 4);
+        this.localSearch(iterations, maxDistance / 8);
+        this.localSearch(iterations, maxDistance / 10);
     }
 } //cose class

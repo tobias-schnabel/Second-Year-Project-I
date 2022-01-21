@@ -105,7 +105,7 @@ public class Main {
     }
 
     public static double cleanData(String rawData) { //replaceAll("[.\\s']", "").replaceAll(",", ".").
-        String cleanstring = rawData.replaceAll("°",  "").replaceAll("′", "").replaceAll(",", ".");
+        String cleanstring = rawData.replaceAll("°",  "").replaceAll("′", "");
         return Double.parseDouble(cleanstring);
     }
 }
